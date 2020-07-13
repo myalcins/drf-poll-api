@@ -2,7 +2,7 @@ from poll.api.serializers import ChoiceSerializers
 from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView, RetrieveAPIView
 from rest_framework.mixins import DestroyModelMixin
 from poll.models import Vote
-from .vote_serializers import VoteSerializer
+from .vote_serializers import VoteDetialSerializers, VoteSerializer
 from rest_framework.permissions import IsAuthenticated
 from .permissions import VoteisOwner
 
@@ -29,7 +29,7 @@ class VoteUpdateAPIView(UpdateAPIView, RetrieveAPIView, DestroyModelMixin):
 
 class VoteListAPIView(ListAPIView):
     permission_classes = [IsAuthenticated, VoteisOwner]
-    serializer_class = VoteSerializer
+    serializer_class = VoteDetialSerializers
 
     def get_queryset(self):
         return Vote.objects.filter(user=self.request.user)
