@@ -8,7 +8,7 @@ pip3 install -r requirements.txt
 
 # Database
 
-install postgresql
+install postgresql </br>
 ---->>>
 sudo -u postgres -i
 psql
