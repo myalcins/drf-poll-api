@@ -5,15 +5,16 @@ You can create polls and vote for other user's polls. </br>
 # Requirements
 </br>
 pip3 install -r requirements.txt</br>
-</br>
+
 # Database
 </br>
-<p>install postgresql </p></br>
----->>> </br>
-<p>sudo -u postgres -i </p> </br>
-<p>psql </p> </br>
-<p>create database "db_name"; </p> </br>
-</br>
+<ul>
+ <li>install postgresql  </li>
+ <li>sudo -u postgres -i </li> 
+ <li>psql </li>
+ <li>create database "db_name"; </li> 
+</ul>
+
 # Endpoints
 </br><ul>
  <li>api/ question/ [name='question-create'] </li></br>
