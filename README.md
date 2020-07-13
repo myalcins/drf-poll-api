@@ -1,36 +1,36 @@
 # anketOn
 
-You can create polls and vote for other user's polls. 
-
+You can create polls and vote for other user's polls. </br>
+</br>
 # Requirements
-
-pip3 install -r requirements.txt
-
+</br>
+pip3 install -r requirements.txt</br>
+</br>
 # Database
-
+</br>
 install postgresql </br>
----->>>
-sudo -u postgres -i
-psql
-create database "db_name";
----->>> settings.py
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'db_name',
-        'USER': 'db_username',
-        'PASSWORD': 'pass',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
-
-# endpoints
-
-api/ question/ [name='question-create']
-api/ question/list/ [name='question-list']
-api/ question/<slug> [name='question-detail']
-api/ vote/ [name='question-vote']
-api/ vote/edit/<int:pk> [name='vote-edit']
-api/ vote/list [name='vote-list']
-  
+---->>> </br>
+sudo -u postgres -i </br>
+psql </br>
+create database "db_name";</br>
+---->>> settings.py </br>
+DATABASES = { </br>
+    'default': { </br>
+        'ENGINE': 'django.db.backends.postgresql',</br>
+        'NAME': 'db_name',</br>
+        'USER': 'db_username',</br>
+        'PASSWORD': 'pass',</br>
+        'HOST': 'localhost',</br>
+        'PORT': '5432',</br>
+    }</br>
+}</br>
+</br>
+# endpoints</br>
+</br>
+api/ question/ [name='question-create']</br>
+api/ question/list/ [name='question-list']</br>
+api/ question/<slug> [name='question-detail']</br>
+api/ vote/ [name='question-vote']</br>
+api/ vote/edit/<int:pk> [name='vote-edit']</br>
+api/ vote/list [name='vote-list']</br>
+  </br>
