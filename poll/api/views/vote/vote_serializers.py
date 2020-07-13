@@ -33,7 +33,6 @@ class VoteDetialSerializers(serializers.ModelSerializer):
         fields = ['user',
                   'question',
                   'choice']
-        read_only_fields = ['user', 'question']
 
     def get_user(self, obj):
         return obj.user.username
