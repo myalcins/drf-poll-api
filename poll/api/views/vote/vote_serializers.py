@@ -17,12 +17,13 @@ class QuestionSerializer(serializers.ModelSerializer):
             'question_text',
             'user'
         ]
+        read_only_fields = ['url', 'title', 'image', 'question_text', 'user']
 
     def get_user(self, obj):
         return obj.user.username
 
 
-class VoteSerializer(serializers.ModelSerializer):
+class VoteDetialSerializers(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
     question = QuestionSerializer()
     choice = serializers.SerializerMethodField()
@@ -32,12 +33,25 @@ class VoteSerializer(serializers.ModelSerializer):
         fields = ['user',
                   'question',
                   'choice']
+        read_only_fields = ['user', 'question']
 
     def get_user(self, obj):
         return obj.user.username
 
+    def get_question(self, obj):
+        return obj.question.question_text
+
     def get_choice(self, obj):
         return obj.choice.choice_text
+
+
+class VoteSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Vote
+        fields = ['user',
+                  'question',
+                  'choice']
 
     def validate(self, attrs):
         user = self.context['request'].user
