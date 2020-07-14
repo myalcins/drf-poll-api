@@ -1,6 +1,5 @@
 # anketOn
-
-You can create polls and vote for other user's polls. </br>
+. </br>
 </br>
 # Requirements
 </br>
