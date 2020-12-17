@@ -16,7 +16,7 @@ class Question(models.Model):
     slug = models.SlugField(unique=True, editable=False)
 
     # relations
-    user = models.ForeignKey(User, on_delete=models.CASCADE, editable=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['-created_at']
