@@ -45,8 +45,8 @@ class Choice(models.Model):
     # fields
     choice_text = models.CharField(max_length=200)
     voted = models.IntegerField(default=0, editable=False)
-    # relations
 
+    # relations
     question = models.ForeignKey(
         Question, related_name='choices', on_delete=models.CASCADE)
 
@@ -58,10 +58,10 @@ class Choice(models.Model):
 
 
 class Vote(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, editable=False)
-    question = models.ForeignKey(
-        Question, on_delete=models.CASCADE, editable=False)
-    choice = models.ForeignKey(Choice, on_delete=models.CASCADE)
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    chosen = models.ForeignKey(Choice, on_delete=models.CASCADE)
     created = models.DateTimeField(editable=False, auto_now_add=True)
 
     class Meta:
