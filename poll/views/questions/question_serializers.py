@@ -1,6 +1,7 @@
 from django.db import models
 from rest_framework import serializers
 from poll.models import Choice, Question
+from django.db import transaction
 
 
 class ChoiceSerializer(serializers.ModelSerializer):
@@ -9,7 +10,7 @@ class ChoiceSerializer(serializers.ModelSerializer):
         model = Choice
         fields = ('choice_text',
                   'voted')
-
+    
 
 class QuestionSerializer(serializers.ModelSerializer):
     choices = ChoiceSerializer(many=True)
@@ -25,11 +26,17 @@ class QuestionSerializer(serializers.ModelSerializer):
                   'task',
                   'created_at',
                   'user')
+        read_only_fields = ('user',)
 
+    @transaction.atomic
     def create(self, validated_data):
-        user = self.context['request'].user
         choices_data = validated_data.pop('choices')
-        question = Question.objects.create(user=user, **validated_data)
+        question = Question.objects.create(**validated_data)
+        choice_list_serializer = self.fields['choices']
         for choice_data in choices_data:
-            Choice.objects.create(question=question, **choice_data)
+            choice_data['question'] = question
+        choices = choice_list_serializer.create(choices_data)
         return question
+
+    def update(self, instance, validated_data):
+        return instance
