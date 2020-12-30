@@ -22,8 +22,3 @@ class VoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vote
         fields = '__all__'
-
-    def update(self, instance, validated_data):
-        instance.chosen = validated_data.get('chosen', instance.chosen)
-        instance.save(update_fields=validated_data.keys())
-        return instance
