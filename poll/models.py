@@ -1,65 +1,47 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.utils import timezone
-from django.utils.text import slugify
+from django.conf import settings
 
 
 class Question(models.Model):
     # fields
+    id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=45)
-    question_text = models.CharField(max_length=60)
-    description = models.TextField(null=True, blank=True)
+    question_text = models.CharField(max_length=240)
+    description = models.CharField(max_length=120)
     image = models.ImageField(upload_to='images/poll/questions/', null=True,
                               default=None, blank=True)
     task = models.BooleanField(default=False)
-    created_at = models.DateTimeField(editable=False)
-    slug = models.SlugField(unique=True, editable=False)
+    # is_published = models.BooleanField(editable=False, default=False)
+    created_at = models.DateTimeField(editable=False, auto_now_add=True)
 
     # relations
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['-created_at']
 
-    def get_slug(self):
-        slug = slugify(self.title.replace("ı", "i"))
-        uniq = slug
-        num = 1
-
-        while Question.objects.filter(slug=uniq).exists():
-            uniq = '{}-{}'.format(slug, num)
-            num += 1
-
-        return uniq
-
-    def save(self, *args, **kwargs):
-        if not self.id:
-            self.created_at = timezone.now()
-        self.slug = self.get_slug()
-        return super(Question, self).save(*args, **kwargs)
-
-    def __str__(self) -> str: return self.title
+    def __str__(self) -> str: 
+        return self.title
 
 
 class Choice(models.Model):
     # fields
-    choice_text = models.CharField(max_length=200)
+    id = models.AutoField(primary_key=True)
+    choice_text = models.CharField(max_length=120)
     voted = models.IntegerField(default=0, editable=False)
 
     # relations
     question = models.ForeignKey(
         Question, related_name='choices', on_delete=models.CASCADE)
 
-    class Meta:
-        ordering = ['pk']
-
-
 class Vote(models.Model):
-
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    id = models.AutoField(primary_key=True)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     chosen = models.ForeignKey(Choice, on_delete=models.CASCADE)
     created = models.DateTimeField(editable=False, auto_now_add=True)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
 
     class Meta:
         ordering = ['-created']

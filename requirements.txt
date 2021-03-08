@@ -1,6 +1,5 @@
-django==3.0.8
-djangorestframework==3.11.0
-psycopg2==2.8.5
-pillow==7.2.0
-model_bakery==1.2.1
-
+django
+djangorestframework
+psycopg2
+pillow
+model_bakery

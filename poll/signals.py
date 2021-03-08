@@ -1,4 +1,3 @@
-from django import dispatch
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from .models import Vote
@@ -28,3 +27,4 @@ def set_choice_vote(sender, instance, created, **kwargs):
             'chosen').get(pk=instance.pk)
         instance.chosen.voted += 1
         return instance.chosen.save()
+
