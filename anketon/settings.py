@@ -1,7 +1,5 @@
 import os
 
-from django.conf.global_settings import AUTH_USER_MODEL
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -28,9 +26,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'poll.apps.PollConfig'
 ]
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -71,7 +69,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'anketon',
         'USER': 'postgres',
-        'PASSWORD': '5428',
+        'PASSWORD': '112233445566778899',
         'HOST': 'localhost',
         'PORT': '5432',
     }

@@ -1,4 +1,3 @@
-from django.db import models
 from rest_framework import serializers
 from poll.models import Vote
 
@@ -7,15 +6,15 @@ class VoteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Vote
-        fields = ('user',
-                  'question',
+        fields = ('question',
                   'chosen')
-        read_only_fields = ('user',
+        read_only_fields = ('id',
+                            'owner',
                             'question')
 
     def create(self, validated_data):
         choice = validated_data['chosen']
-        vote = Vote.objects.create(user=self.context['request'].user,
+        vote = Vote.objects.create(owner=self.context['request'].user,
                                    chosen=choice,
                                    question=choice.question)
         vote.save()
