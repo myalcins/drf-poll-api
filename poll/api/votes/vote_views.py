@@ -8,7 +8,7 @@ class VoteViewSet(VoteViewSet):
     serializer_class = VoteSerializer
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        serializer.save(owner=self.request.user)
 
     def get_queryset(self):
         return self.queryset.filter(owner=self.request.user)

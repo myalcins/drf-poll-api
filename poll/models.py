@@ -35,6 +35,10 @@ class Choice(models.Model):
     question = models.ForeignKey(
         Question, related_name='choices', on_delete=models.CASCADE)
 
+    class Meta:
+        ordering=['pk']
+
+        
 class Vote(models.Model):
     id = models.AutoField(primary_key=True)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)

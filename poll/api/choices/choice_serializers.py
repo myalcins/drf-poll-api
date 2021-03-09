@@ -6,7 +6,7 @@ class ChoiceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Choice
-        fields = ('choice_text', 'question')
+        fields = ('choice_text', 'question', 'voted')
         read_only_fields = ('id', 'voted')
     
     def validate(self, attrs):
