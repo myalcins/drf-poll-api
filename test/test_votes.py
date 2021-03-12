@@ -19,33 +19,10 @@ class VoteTests(TestCase):
         self.client = APIClient()
         self.user = baker.make(settings.AUTH_USER_MODEL)
         self.user2 = baker.make(settings.AUTH_USER_MODEL)
-        self.vote = baker.make(Vote, owner=self.user)
-
-    @staticmethod
-    def _create_question_with_choices(title: str, question_text: str, description: str, choices: list):
-        question_user = baker.make(settings.AUTH_USER_MODEL)
-        client = APIClient()
-        payload = {
-            "title": title,
-            "question_text": question_text,
-            "description": description,
-            "choices": choices
-        }
-        url = populate_question_url()
-        client.force_authenticate(question_user)
-        res = client.post(url, data=payload, format="json")
-
-        return res.data['pk']
-    
-    def get_choices(self):
-        question = self._create_question_with_choices("Test Question", 
-                            "How are you today?", "BOOOO", 
-                            [{"choice_text": "Good"},
-                            {"choice_text": "Bad"},
-                            {"choice_text": "Ugly"}])
-        choices = Choice.objects.filter(question=question)
-
-        return choices
+        self.question = baker.make(Question)
+        self.choice = baker.make(Choice, question=self.question)
+        self.choice2 = baker.make(Choice, question=self.question)
+        self.vote = baker.make(Vote, owner=self.user, chosen=self.choice)
 
     def test_unauthenticate(self):
         url = populate_vote_url()
@@ -54,17 +31,15 @@ class VoteTests(TestCase):
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_vote_question(self):
-        choice = self.get_choices().first()
         payload = {
-            "chosen": choice.id,
+            "chosen": self.choice2.id,
         }
         
         url = populate_vote_url()
-        self.client.force_authenticate(self.user)
+        self.client.force_authenticate(self.user2)
         response = self.client.post(url, data=payload, format="json")
         
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(Choice.objects.values_list('voted', flat=True).get(pk=choice.pk) ,1)
 
     def test_list_vote(self):
         url = populate_vote_url()
@@ -88,3 +63,34 @@ class VoteTests(TestCase):
         
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['owner'], self.user.id)
+
+    def test_delete_not_owned_vote(self):
+        url = populate_vote_url(self.vote)
+        self.client.force_authenticate(self.user2)
+        response = self.client.delete(url)
+
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_delete_owned_vote(self):
+        url = populate_vote_url(self.vote)
+        self.client.force_authenticate(self.user)
+        response = self.client.delete(url)
+        
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_update_owned_vote(self):
+        data = {"chosen": self.choice2.id}
+        url = populate_vote_url(self.vote)
+        self.client.force_authenticate(self.user)
+        response = self.client.patch(url, data=data, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['chosen'], self.choice2.id)
+
+    def test_update_not_owned_vote(self):
+        data = {"chosen": self.choice2.id}
+        url = populate_vote_url(self.vote)
+        self.client.force_authenticate(self.user2)
+        response = self.client.patch(url, data=data, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
