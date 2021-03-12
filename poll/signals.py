@@ -13,11 +13,10 @@ def del_voted_choice(sender, instance, **kwargs):
 def vote_choice(sender, instance, created, update_fields, **kwargs):
     if created:
         instance.chosen.voted += 1
+        return instance.chosen.save()
+    if 'chosen' in update_fields:
+        instance.chosen.voted += 1
         instance.chosen.save()
-    else:
-        if 'chosen' in update_fields:
-            instance.chosen.voted += 1
-            instance.chosen.save()
 
 # To decrease old choice's voted count
 vote_update = Signal()
