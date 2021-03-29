@@ -8,7 +8,7 @@
     SECRET_KEY=foo
     SQL_ENGINE=django.db.backends.postgresql
     SQL_DATABASE=db_name
-    SQL_USER=user
+    SQL_USER=db_user
     SQL_PASSWORD=pass
     SQL_HOST=host
     SQL_PORT=port
@@ -41,6 +41,6 @@ root@<container_id>:/# python3 manage.py migrate
 
 ```console
 $ sudo docker exec -it <container_id> /bin/bash
-root@<container_id>:/# psql -U <username>
-<username>=# create database db_name;
+root@<container_id>:/# psql -U <db_user>
+<db_user>=# create database db_name;
 ```
