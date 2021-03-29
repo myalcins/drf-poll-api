@@ -1,0 +1,30 @@
+version: "3.9"
+   
+services:
+  web:
+    build: ./drf-poll-api
+    command: gunicorn --chdir anketon --bind :8000 anketon.wsgi:application
+    volumes:
+      - ./drf-poll-api/:/app/
+      - static_volume:/app/web/static
+    ports:
+      - 8000:8000
+  db:
+    image: postgres:12.0
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres_pass
+      - POSTGRES_DB=anketon
+  nginx:
+    build: ./nginx
+    ports:
+      - 1337:80
+    depends_on:
+      - web
+    volumes:
+      - static_volume:/app/web/static
+volumes:
+  postgres_data:
+  static_volume:

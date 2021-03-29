@@ -3,3 +3,5 @@ djangorestframework
 psycopg2
 pillow
 model_bakery
+gunicorn
+django-environ
