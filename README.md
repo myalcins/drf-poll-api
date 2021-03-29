@@ -4,9 +4,16 @@
 ### API Settings
 - rename /drf-poll-api/.env.example to .env
 - edit .env:
-  - add SECRET_KEY
-  - add database settings (look at the keys of database settings value in the production settings file)
-  - add "DATABASE=postgres"
+  - ```
+    SECRET_KEY=foo
+    SQL_ENGINE=django.db.backends.postgresql
+    SQL_DATABASE=db_name
+    SQL_USER=user
+    SQL_PASSWORD=pass
+    SQL_HOST=host
+    SQL_PORT=port
+    DATABASE=postgres
+ ```
 
 ### Docker
 * Get Docker [Doc](https://docs.docker.com/get-docker/)
