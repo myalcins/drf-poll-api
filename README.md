@@ -13,7 +13,7 @@
     SQL_HOST=host
     SQL_PORT=port
     DATABASE=postgres
- ```
+    ```
 
 ### Docker
 * Get Docker [Doc](https://docs.docker.com/get-docker/)
