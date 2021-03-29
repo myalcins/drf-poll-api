@@ -3,7 +3,7 @@
 
 ### API Settings
 * rename /drf-poll-api/.env.example to .env
-* edit .env
+* edit .env:
  - add SECRET_KEY
  - add database settings (look at key of database settings in the production settings file)
  - add DATABASE=postgres
