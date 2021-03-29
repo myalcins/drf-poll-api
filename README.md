@@ -1,6 +1,11 @@
 # drf-poll-api
 
 
+### API Settings
+* change /drf-poll-api/.env.example name to .env
+* add SECRET_KEY
+* add database settings (look at key of database settings in the production settings file)
+
 ### Docker
 * Get Docker [Doc](https://docs.docker.com/get-docker/)
 * cd /drf-poll-api
@@ -18,7 +23,15 @@ $ docker ps
 
 ```console
 $ sudo docker exec -it <container_id> /bin/bash
-$ python3 manage.py makemigrations
-$ python3 manage.py migrate
+root@<container_id>:/# python3 manage.py makemigrations
+root@<container_id>:/# python3 manage.py migrate
 ```
 
+### Note
+* If you have a db error like "db_name does not exist"
+
+```console
+$ sudo docker exec -it <container_id> /bin/bash
+root@<container_id>:/# psql -U <username>
+<username>=# create database db_name;
+```
