@@ -2,10 +2,11 @@
 
 
 ### API Settings
-* change /drf-poll-api/.env.example name to .env
-* add SECRET_KEY
-* add database settings (look at key of database settings in the production settings file)
-* add DATABASE=postgres
+* rename /drf-poll-api/.env.example to .env
+* edit .env
+ - add SECRET_KEY
+ - add database settings (look at key of database settings in the production settings file)
+ - add DATABASE=postgres
 
 ### Docker
 * Get Docker [Doc](https://docs.docker.com/get-docker/)
